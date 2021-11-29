@@ -1,0 +1,60 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type CardTypeDto {
+  uuid: String!
+}
+
+input CardTypeInputDto {
+  uuid: String!
+}
+
+input ClientCreateRequestDto {
+  address: String!
+  bankUuid: String!
+  isActive: Boolean!
+  name: String!
+  redirectURL: String!
+  supportedCardTypes: [CardTypeInputDto!]!
+  threshold: Int
+}
+
+type ClientDto {
+  address: String!
+  isActive: Boolean!
+  name: String!
+  redirectURL: String!
+  supportedCardTypes: [CardTypeDto!]!
+  threshold: Int!
+  uuid: String!
+}
+
+input ClientUpdateRequestDto {
+  address: String!
+  bankUuid: String!
+  isActive: Boolean!
+  name: String!
+  redirectURL: String!
+  supportedCardTypes: [CardTypeInputDto!]!
+  threshold: Int
+  uuid: String!
+}
+
+type Mutation {
+  addClient(clientCreateRequest: ClientCreateRequestDto!): ClientDto!
+  updateClient(clientUpdateRequest: ClientUpdateRequestDto!): ClientDto!
+}
+
+type PaymentResponseDto {
+  status: Float!
+  uuid: String!
+}
+
+type Query {
+  client(uuid: String!): ClientDto!
+}
+
+type Subscription {
+  paymentChangeListener: PaymentResponseDto!
+}

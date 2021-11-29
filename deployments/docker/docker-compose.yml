@@ -1,0 +1,66 @@
+version: "3.8"
+
+services:
+  payment-gs:
+    image: payment-gs:1.0.0
+    build:
+      context: ../../payment-gateway-system/
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=dev
+    networks:
+      - pgs
+    depends_on:
+      - postgres
+  
+  issuing-bank:
+    image: issuing-bank:1.0.0
+    build:
+      context: ../../issuing-bank/
+    ports:
+      - 3001:3001
+    networks:
+      - pgs
+
+  keycloak:
+      image: payment-gs-keycloak:1.0.0
+      build:
+        context: ./keycloak/
+      environment:
+        DB_VENDOR: POSTGRES
+        DB_ADDR: postgres
+        DB_DATABASE: keycloak
+        DB_USER: keycloak
+        DB_SCHEMA: public
+        DB_PASSWORD: password
+        KEYCLOAK_USER: admin
+        KEYCLOAK_PASSWORD: admin
+        # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
+        #JDBC_PARAMS: "ssl=true"
+      ports:
+        - 8181:8080
+      networks:
+        - pgs
+      depends_on:
+        - postgres
+
+  postgres:
+    image: payment-gs-postgres:1.0.0
+    build:
+      context: ./postgres/
+    ports:
+      - 5433:5432
+    # environment:
+    #   - POSTGRES_USER=admin
+    #   - POSTGRES_PASSWORD=admin
+    networks:
+      - pgs
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+networks:
+  pgs:
+
+volumes:
+  postgres:
