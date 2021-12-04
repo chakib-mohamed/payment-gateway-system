@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Liquibase, LiquibaseConfig, POSTGRESQL_DEFAULT_CONFIG } from 'liquibase';
+import { Liquibase, LiquibaseConfig, LiquibaseLogLevels, POSTGRESQL_DEFAULT_CONFIG } from 'liquibase';
 
 @Injectable()
 export class LiquibaseService implements OnModuleInit {
@@ -14,11 +14,15 @@ export class LiquibaseService implements OnModuleInit {
       )}/${this.configService.get('DATABASE_NAME')}`,
       username: this.configService.get('DATABASE_USERNAME'),
       password: this.configService.get('DATABASE_PASSWORD'),
-      changeLogFile: './changelog.xml',
-      // classpath: this.configService.get('LIQUIBASE_DRIVER_CLASSPATH')
+      changeLogFile: './config/liquibase/changelog.xml',
+      logLevel: LiquibaseLogLevels.Debug,
     };
     const instance = new Liquibase(myConfig);
 
-    await instance.status();
+    if (this.configService.get('RESET_DB') === 'true') {
+      return instance.clearCheckSums();
+    }
+
+    await instance.update({});
   }
 }

@@ -4,12 +4,14 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from './auth.module';
 import { ConfiguationModule } from './configuration.module';
 import { DatabaseModule } from './database.module';
+import { LiquibaseModule } from './liquibase.module';
 import { UtilsService } from './service/utils.service';
 
 @Module({
   imports: [
     ConfiguationModule,
     DatabaseModule,
+    LiquibaseModule,
     AuthModule,
     ThrottlerModule.forRootAsync({
       imports: [ConfigModule],
