@@ -92,6 +92,10 @@ $ CONF_PATH=/some/path node dist/main
 
 (host and port vary depending on the configuration)
 
+## Insomnia collection
+
+The insomnia-demo folder contains a collection example of Rest Api calls.
+
 # Docker
 
 The Docker configuration is located at <b><i>./deployments/docker</i></b> folder.
