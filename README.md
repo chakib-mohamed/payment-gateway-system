@@ -38,6 +38,10 @@ When the payment request is valid, the system inits a 3D secure authentication r
 - Class-validator to validate requests inputs.
 - Liquibase
 
+## High level architecture diagram :
+
+![NestJs demo apps](architecure-diagram.png?raw=true)
+
 # Installation And Running the Apps
 
 ## Locally
