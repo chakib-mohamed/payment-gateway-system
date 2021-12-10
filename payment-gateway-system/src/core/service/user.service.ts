@@ -2,8 +2,8 @@ import { Inject, Injectable, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 
 export type AuthenticatedUser = {
-  clientId: string;
-  realm_access: { roles: string[] };
+  clientId?: string;
+  realm_access?: { roles: string[] };
 };
 
 @Injectable({ scope: Scope.REQUEST })
