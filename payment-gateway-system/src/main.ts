@@ -12,7 +12,7 @@ async function bootstrap() {
 
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new HttpExceptionFilter(httpAdapter));
-  const confService = app.get(ConfigService);
+  const confService: ConfigService = app.get(ConfigService);
   if (confService.get('SWAGGER_UI_ENABLE') === 'true') {
     configureSwagger(app);
   }
