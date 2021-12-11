@@ -18,7 +18,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-pathclears/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:st": "jest --detectOpenHandles --config ./test/jest-st.json",
+    "test:st": "jest --detectOpenHandles --config ./test/jest-st.json --forceExit",
     "test:st:cov": "jest --config ./test/jest-st.json --coverage",
     "test:st:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --config ./test/jest-st.json --runInBand"
   },
