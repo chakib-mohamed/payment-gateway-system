@@ -19,18 +19,18 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+          cache: "npm"
 
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          # npm cache files are stored in `node_modules`
-          path: |
-            **/node_modules
-          key: ${{ runner.os }}-build-node_modules-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-build-node_modules
+      # - name: Cache node modules
+      #   uses: actions/cache@v2
+      #   with:
+      #     # npm cache files are stored in `node_modules`
+      #     path: "**/node_modules"
+      #     key: ${{ runner.os }}-build-node_modules-${{ hashFiles('**/package-lock.json') }}
+      #     restore-keys: ${{ runner.os }}-build-node_modules
 
       # - name: Cache npm
-      #   uses: actions/cache@v1
+      #   uses: actions/cache@v2
       #   with:
       #     # npm cache files are stored in `~/.npm` on Linux/macOS
       #     path: ~/.npm
@@ -45,5 +45,5 @@ jobs:
       #   continue-on-error: true
 
       - name: Install dependencies
-        run: npm ci --prefix ./payment-gateway-system
+        run: npm ci --prefer-offline --prefix ./payment-gateway-system
       - run: npm run test:st --prefix ./payment-gateway-system
