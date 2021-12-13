@@ -19,6 +19,32 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          # npm cache files are stored in `node_modules`
+          path: "**/node_modules"
+          key: ${{ runner.os }}-build-node_modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-build-node_modules
+
+      # - name: Cache npm
+      #   uses: actions/cache@v2
+      #   with:
+      #     # npm cache files are stored in `~/.npm` on Linux/macOS
+      #     path: ~/.npm
+      #     key: ${{ runner.os }}-build-npm-${{ hashFiles('**/package-lock.json') }}
+      #     restore-keys: ${{ runner.os }}-build-npm
+
+      # In this step, this action saves a list of existing images,
+      # the cache is created without them in the post run.
+      # It also restores the cache if it exists.
+      # - uses: satackey/action-docker-layer-caching@v0.0.11
+      #   # Ignore the failure of a step and avoid terminating the job.
+      #   continue-on-error: true
+
       - name: Install dependencies
-        run: npm ci --prefix ./payment-gateway-system
-      - run: npm run test:st --prefix ./payment-gateway-system
+        run: npm ci --prefer-offline --prefix ./payment-gateway-system
+      - name: Run system tests
+        run: npm run test:st --prefix ./payment-gateway-system
